@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Michael Dixon, Caroline Klein, Lukas Muzila">
+<meta name="dcterms.date" content="2023-05-02">
+
+<title>Written Report: Scooby Doo TV Episodes &amp; Movies</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="Scooby_Written_Report_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Scooby_Written_Report_files/libs/quarto-html/quarto.js"></script>
+<script src="Scooby_Written_Report_files/libs/quarto-html/popper.min.js"></script>
+<script src="Scooby_Written_Report_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Scooby_Written_Report_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Scooby_Written_Report_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Scooby_Written_Report_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Scooby_Written_Report_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Scooby_Written_Report_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Scooby_Written_Report_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Written Report: Scooby Doo TV Episodes &amp; Movies</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Michael Dixon, Caroline Klein, Lukas Muzila </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 2, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+
+</div>
+<section id="introduction-and-data" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-and-data">Introduction and Data</h2>
+<section id="motivation-and-research-question" class="level3">
+<h3 class="anchored" data-anchor-id="motivation-and-research-question">Motivation and Research Question</h3>
+<p>Over the years, the iconic Scooby Doo name has been associated with a myriad of products in television, film, video games, comics, and merchandise. It is listed among the most profitable media franchises in the world, having grossed a total of 4.69 billion dollars in revenue since its release in 1969<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. From the beloved original “Scooby Doo, Where Are You!”, to the recent “Velma” sitting as the 3rd lowest-rated television show on IMDb<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, the reception of these works have varied dramatically. This begs the question of what factors influence the ratings of the movies and tv shows in this franchise. In this analysis, we will be investigating:</p>
+<p><strong>How can release and content details of Scooby Doo media be used to predict their audience rating?</strong></p>
+<p>We expect that tv episodes and shorter run-times will have higher ratings because the premise of Scooby Doo works best in shorter segments, which is how it was originally conceived. Additionally, most of the movies are probably direct-to-DVD films with low budgets and smaller audiences. We also think that the presence of classic elements like Scooby Snacks will by an indicator of higher ratings because these are staples of the franchise. However, we do not think that the variables representing key aspects of the contents, like setting, will have a significant impact on the prediction because they do not determine the quality of the movie/episode. One of the most important variables will likely be release year because modern audiences will have feelings of nostalgia related to older works and rate them well.</p>
+</section>
+<section id="data-manipulation" class="level3">
+<h3 class="anchored" data-anchor-id="data-manipulation">Data Manipulation</h3>
+<p>The data we will be using comes from data.world, an online platform for data catalogs<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. It was collected 2 years ago by a user named Amber Thomas through a combination of manually viewing the material and referencing outside sources like IMDb and Scoobypedia. Each case represents a film or tv episode in the Scooby Doo franchise. The variables we will be using represent the format, engagement, year of release, network, runtime, setting, number of suspects and whether or not Scooby snacks are present in the episode in order to predict audience rating via IMDb.</p>
+<p>First, we took the subset of columns that we wanted to work with. We began cleaning our data by removing all NA values from the data frame, since there were only around 20 inputs and we didn’t want them to obstruct the study. These missing values were partially due to the fact that the newest Scooby Doo movies did not have their IMDb scores included because they were likely still actively being rated. There was also a wide variety of variable inputs for the Scooby Snack column, from simple numeric count of snacks to inputs such as “a wheelbarrow.” Therefore we made the variable binary, where it was 0 if there were no Scooby Snacks, and 1 if there were any. We had the release date in month-day-year format in a column. We simply wanted the year of release to function as a simple numeric variable, so we pulled the year value and made it its own column. Additionally, we made sure that numeric variables, like IMDb rating, were treated as a numeric values and that categorical variables were categorical. Finally, there were a few categories that had 1 instance and causes errors when they were randomly assigned to the test set but not the training set. To remedy this, we dropped the networks that only had one observation, and dropped the unique instances of ‘Moon’ and ‘Air’ in the setting_terrain column. In the end, we went from 603 to 576 cases.</p>
+<p>The format details what kind of media the input is, such as movies or tv shows. Engagement details how many reviews were left for the content on IMDB, year of release is what year the media piece came out and network is what network released the content. Run time details how long the content is in minutes, the setting is where the primary location of the episode took place (a swamp, desert, forest, etc). Suspects amount is again self explanatory and is the amount of people who are suspected of committing the crime. The binary variable for scooby snacks just indicates if the classic treat is in the media content at all. Finally, the outcome variable is the average rating of the content left by a user on IMDb. We included these variables because they had a reasonable set of options, and we wanted a balance of information about the diegetic content of the episode and the meta details about its release. All of the variables except IMDb rating will be included in our model creation, and IMDb rating will be our outcome variable.</p>
+</section>
+</section>
+<section id="methodology" class="level2">
+<h2 class="anchored" data-anchor-id="methodology">Methodology</h2>
+<section id="visualizations" class="level3">
+<h3 class="anchored" data-anchor-id="visualizations">Visualizations</h3>
+<p>We started our process by looking at how some of our key variables may be related to the outcome variables, and see if there are any clear patterns. Below are 3 visualizations to help us show and possibly explain some of the phenomenon we discussed previously.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="Scooby_Written_Report_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This plot indicates a downward trend in IMDb ratings as run-time increases. It can also be seen that there are certain run-times where observations tend to cluster, which makes sense since there are certain expectations for how long movies and TV episodes are.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="Scooby_Written_Report_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Here we see the relationship between rating and year. We are surprised to see very little difference among IMDb score across the years the content was released.</p>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="Scooby_Written_Report_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Finally, we can see some differences among the networks in the average IMDb rating for their content. For example, the CW and Warner Brothers Picture have noticeably lower average ratings than Cartoon Network. We will examine the significance of the potential relationships we visualized through machine learning.</p>
+</section>
+<section id="developing-models" class="level3">
+<h3 class="anchored" data-anchor-id="developing-models">Developing Models</h3>
+<div class="cell">
+
+</div>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<caption>Distribution of IMDb Scores</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Mean Score</th>
+<th style="text-align: right;">Minimum Score</th>
+<th style="text-align: right;">Maximum Score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">7.276042</td>
+<td style="text-align: right;">4.2</td>
+<td style="text-align: right;">9.6</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Our outcome variable (IMDb rating) ranges from 4.2 to 9.6 out of 10 stars, with the average around 7.3. In order to account for these differences, we will test multiple prediction models on the data. We begin our analysis by using a simple linear regression model to predict rating for Scooby Doo content. We chose this model because it is a good starting point to see how different factors may positively or negatively influence rating. This model predicts quantitative outcomes, and can handle a mix of categorical and numeric variables.</p>
+<div class="cell">
+
+</div>
+<div class="cell">
+
+</div>
+<p>Next, we fit Ridge and LASSO prediction models using their internal cross-validation functions. These are regularization/shrinkage methods that will help us reduce variance and shrink the coefficient estimates towards 0 so that we can minimize less influential variables. This is especially prominent in the LASSO model, which will drop certain features and isolate the key variables.</p>
+<div class="cell">
+
+</div>
+<div class="cell">
+
+</div>
+<p>The next model we try is the Random Forest Regressor as a different way of estimating predictions to see if a tree-based decision model would be more accurate. This method uses a collection of decorrelated decision trees, and will help us by providing us information about the relative importance of each variable. We will also be using grid search cross validation to find the optimal parameters and optimize model performance. For all cross validation practices, we started with a broader range of values before conducting a narrower search to get more precise parameters.</p>
+<div class="cell">
+
+</div>
+<div class="cell">
+
+</div>
+</section>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<p>In order to evaluate the accuracy of our prediction models, we calculate each MSE (mean squared error) on the test set.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>OLS MSE: 0.406560</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Ridge MSE: 0.395371</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>LASSO MSE: 0.385938</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Random Forest MSE: 0.252638</code></pre>
+</div>
+</div>
+<p>Our Linear model had an MSE value of 0.4065, which is not particularly strong. This follows our expectations, as picking variables and assuming linearity in the outcome usually breaks down for more complex problems and larger models. The Ridge and LASSO models had test MSEs of .3954 and .3859, respectively. These models performed slightly better, but are still not ideal. Finally, our random forest MSE is 0.2526, indicating it is our best model at predicting ratings on unseen episodes.</p>
+<p>We also look at the variable importance plot of the Random Forest model and variable coefficients of the LASSO, Ridge, and OLS models to understand the relative influence of each factor.</p>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<caption>Coefficients of Variables in Each Model</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Feature</th>
+<th style="text-align: right;">OLS Coef</th>
+<th style="text-align: right;">Ridge Coef</th>
+<th style="text-align: right;">LASSO Coef</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">format_Crossover</td>
+<td style="text-align: right;">0.0630485</td>
+<td style="text-align: right;">0.0025270</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">format_Movie</td>
+<td style="text-align: right;">-0.1937846</td>
+<td style="text-align: right;">-0.1286398</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">format_Movie (Theatrical)</td>
+<td style="text-align: right;">-0.2889806</td>
+<td style="text-align: right;">-0.1600919</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">format_TV Series</td>
+<td style="text-align: right;">0.5212610</td>
+<td style="text-align: right;">0.4514698</td>
+<td style="text-align: right;">0.5757246</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">format_TV Series (segmented)</td>
+<td style="text-align: right;">-0.1015442</td>
+<td style="text-align: right;">-0.1652651</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">network_ABC</td>
+<td style="text-align: right;">-0.0806022</td>
+<td style="text-align: right;">-0.1046507</td>
+<td style="text-align: right;">-0.0923616</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">network_Boomerang</td>
+<td style="text-align: right;">0.0860125</td>
+<td style="text-align: right;">0.1868764</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">network_CBS</td>
+<td style="text-align: right;">0.4649877</td>
+<td style="text-align: right;">0.4029351</td>
+<td style="text-align: right;">0.3304430</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">network_Cartoon Network</td>
+<td style="text-align: right;">0.5148331</td>
+<td style="text-align: right;">0.5820158</td>
+<td style="text-align: right;">0.4059324</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">network_Syndication</td>
+<td style="text-align: right;">0.9740139</td>
+<td style="text-align: right;">0.5899261</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">network_The CW</td>
+<td style="text-align: right;">-1.8972266</td>
+<td style="text-align: right;">-1.7257203</td>
+<td style="text-align: right;">-1.8541374</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">network_The WB</td>
+<td style="text-align: right;">-0.1228780</td>
+<td style="text-align: right;">-0.0641037</td>
+<td style="text-align: right;">-0.0866200</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">network_Warner Bros.&nbsp;Picture</td>
+<td style="text-align: right;">-0.2889806</td>
+<td style="text-align: right;">-0.1600919</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">network_Warner Home Video</td>
+<td style="text-align: right;">0.3498401</td>
+<td style="text-align: right;">0.2928132</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">setting_terrain_Cave</td>
+<td style="text-align: right;">0.1748973</td>
+<td style="text-align: right;">0.1596717</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">setting_terrain_Coast</td>
+<td style="text-align: right;">-0.0216918</td>
+<td style="text-align: right;">-0.0136948</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">setting_terrain_Desert</td>
+<td style="text-align: right;">-0.0964246</td>
+<td style="text-align: right;">-0.0963111</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">setting_terrain_Forest</td>
+<td style="text-align: right;">-0.0436223</td>
+<td style="text-align: right;">-0.0393127</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">setting_terrain_Island</td>
+<td style="text-align: right;">-0.0742547</td>
+<td style="text-align: right;">-0.0653291</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">setting_terrain_Jungle</td>
+<td style="text-align: right;">-0.0814382</td>
+<td style="text-align: right;">-0.0770749</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">setting_terrain_Mountain</td>
+<td style="text-align: right;">0.0226976</td>
+<td style="text-align: right;">0.0069918</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">setting_terrain_Ocean</td>
+<td style="text-align: right;">-0.0416401</td>
+<td style="text-align: right;">-0.0440601</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">setting_terrain_Rural</td>
+<td style="text-align: right;">0.0046755</td>
+<td style="text-align: right;">0.0068674</td>
+<td style="text-align: right;">0.0062553</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">setting_terrain_Snow</td>
+<td style="text-align: right;">-0.0595571</td>
+<td style="text-align: right;">-0.0575327</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">setting_terrain_Space</td>
+<td style="text-align: right;">0.2023920</td>
+<td style="text-align: right;">0.1537429</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">setting_terrain_Swamp</td>
+<td style="text-align: right;">0.0723099</td>
+<td style="text-align: right;">0.1201130</td>
+<td style="text-align: right;">0.0531598</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">setting_terrain_Urban</td>
+<td style="text-align: right;">-0.0583436</td>
+<td style="text-align: right;">-0.0540715</td>
+<td style="text-align: right;">-0.0149474</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">run_time</td>
+<td style="text-align: right;">-0.2486801</td>
+<td style="text-align: right;">-0.2466754</td>
+<td style="text-align: right;">-0.1593155</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">year</td>
+<td style="text-align: right;">-0.0212723</td>
+<td style="text-align: right;">-0.0797516</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">engagement</td>
+<td style="text-align: right;">-0.0156911</td>
+<td style="text-align: right;">-0.0356116</td>
+<td style="text-align: right;">-0.0705929</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">suspects_amount</td>
+<td style="text-align: right;">0.0257383</td>
+<td style="text-align: right;">0.0334535</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">snack_binary</td>
+<td style="text-align: right;">0.0062100</td>
+<td style="text-align: right;">-0.0160481</td>
+<td style="text-align: right;">-0.0012061</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="Scooby_Written_Report_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>By looking at the coefficients, we gain insight into which variables are most related to the Scooby Doo content’s IMDb score. For example, all models agree that the CW network has the greatest negative connection with the rating, and they also all agree that being a TV show is a significant indicator of a good rating. Most of the terrain coefficients were shrunk to 0, indicating that these features are less significant. Furthermore we can see a variable importance plot that confirms some of our above arguments, that setting is not particularly important and that runtime and release year carry a lot of weight in how a person rated the content. The engagement variable was even more important than expected, as it is the most important variable according to the chart. This could imply that people in general are more likely to leave reviews of something they had strong opinions about, and that producers may want to find a way to increase this online engagement to boost ratings.</p>
+</section>
+<section id="discussion" class="level2">
+<h2 class="anchored" data-anchor-id="discussion">Discussion</h2>
+<p>From our analysis, we concluded that the random forest model is the best for our question because it most accurately predicted the scores of the test set out of the ones we tested. We also found that the CW network and TV series format are significant variables that predict lower and higher scores, respectively. Additionally, the popularity of the episode/movie (and thus engagement) is the most influential factor on rating. However, there were certain flaws in our analysis. First of all, the data we are analyzing was manually collected by one person, and may contain subjectivity and errors. Additionally, we dropped 4% of the observations, which is a minor but potentially influential exclusion. In the analysis, we could have also tried more prediction models or tried different parameters to reinforce our results and see if we could find a more accurate model.</p>
+<p>In our training data, we ran into issues as some of the variables we were initially interested in studying had too many NULL values to conduct analysis on. This led to us changing which predictors we put in train-test-split data and subsequently the model. As a result, there could be some bias within our analysis as they are the variables we picked specifically to be easier to research. Moreover, we had some variables that only had a couple occurrences in our original data set so when they were randomly assigned to our test set but not our training set for the model, we received some errors as it did not know how to process them. For this reason, there were some random states that did not work, and we had to drop some rows from our data. Finally, our data only had 576 observations after cleaning, which is not that many compared to the size of other data frames we have used in this course. This small number of observations is now ideal for prediction methods, especially when split between the training and test sets. Also, considering some of the variables only had a few outcomes as stated above, this could lead to some “noise” or skewing in our data, given it does not have many observations. This makes it difficult to generalize from our model estimates.</p>
+<p>If we were to start the project over, we would most notably remove the <code>setting_terrain</code> variable, as there were a lot of unique variables within the column that reduced clarity and did not influence the model much. This could lead to limiting the utility of our model. Therefore we perhaps would have been slightly more judicious in choosing variables, or use statistical methods for variable selection, if we were to do it again. Additionally, we found a solution to the issue of having unique variable values in the test set but not in the training set. By giving the OneHotEncoder in our preprocessor the argument <code>handle_unknown = 'ignore'</code>, we would be able to use more of our data instead of dropping certain observations. Furthermore, while it would not have been possible for our study, if we were to conduct a similar study, we would take into account the fact that the data was relatively small and potentially contains errors. Sourcing our own data was not possible here, but could have been useful in another study similar to this.</p>
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p><a href="https://en.wikipedia.org/wiki/List_of_highest-grossing_media_franchises#$2–5_billion">List of highest-grossing media franchises</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p><a href="https://www.imdb.com/title/tt14153790/">‘Velma’ on IMDb</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p><a href="https://data.world/amberthomas/scooby-doo-tv-episodes-movies">Data from data.world</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
